@@ -15,3 +15,12 @@ export const updatePersonalInfo = async (req, res) => {
 
   res.status(200).json({ message: "Info updated successfully!" })
 }
+
+export const getPersonalInfo = async (req, res) => {
+  const { id } = req.params
+  const personalInfo = await PersonalInfo.findOne({ userID: id })
+
+  if (!personalInfo) throw new NotFoundError("Personal info not found")
+
+  res.status(200).json(personalInfo)
+}

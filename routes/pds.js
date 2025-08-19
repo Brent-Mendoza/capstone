@@ -2,7 +2,10 @@ import { Router } from "express"
 import { validate, validateParams } from "../middleware/ValidationMiddleware.js"
 import { personalInfoSchema } from "../validations/PersonalSchema.js"
 import { IdParamSchema } from "../validations/IdParamsSchema.js"
-import { updatePersonalInfo } from "../controllers/PersonalInfoController.js"
+import {
+  getPersonalInfo,
+  updatePersonalInfo,
+} from "../controllers/PersonalInfoController.js"
 import { updateAddress } from "../controllers/AddressController.js"
 import { updateEducationalBackground } from "../controllers/EducationalBackgroundController.js"
 import { updateFamilyBackground } from "../controllers/FamilyBackgroundController.js"
@@ -11,12 +14,13 @@ import { educationalBackgroundSchema } from "../validations/EducationalBackgroun
 import { familyBackgroundSchema } from "../validations/FamilyBackgroundSchema.js"
 const PDSRouter = Router()
 
-PDSRouter.patch(
-  "/personal-info/:id",
-  validateParams(IdParamSchema),
-  validate(personalInfoSchema),
-  updatePersonalInfo
-)
+PDSRouter.route("/personal-info/:id")
+  .get(getPersonalInfo)
+  .patch(
+    validateParams(IdParamSchema),
+    validate(personalInfoSchema),
+    updatePersonalInfo
+  )
 
 PDSRouter.patch(
   "/address/:id",
